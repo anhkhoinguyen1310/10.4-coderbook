@@ -26,7 +26,7 @@ export default function RegisterPage() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [show, setShow] = useState(false);
 
-  const onToggleModal = (e) => {
+  const onToggleModal = (e) => { 
     e.preventDefault();
     setShow(!show);
   };
@@ -39,9 +39,15 @@ export default function RegisterPage() {
   const onChange = (e) => {
     setUser({ ...user, [e.target.id]: e.target.value });
   };
+  
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // look at the auth.action
+    dispatch(authActions.register(null, user.email, user.password, null));
 
+  };
   if (isAuthenticated) return <Redirect to="/" />;
-
+// see if authenticated is true? -> if it true redirect to homepage otherwise inform error
   return (
     <div>
       <Helmet>
@@ -125,12 +131,13 @@ export default function RegisterPage() {
         </Modal.Header>
         <Modal.Body>
           {/* STEP 1 */}
-          <Form className="d-flex flex-column justify-content-center">
+          <Form className="d-flex flex-column justify-content-center" onSubmit={onSubmit}>
             <Form.Row>
               <Form.Group as={Col} controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="email"
+                  onChange = {onChange} 
                   placeholder="Enter email"
                 />
               </Form.Group>
@@ -138,7 +145,9 @@ export default function RegisterPage() {
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
+                  onChange = {onChange} 
                   placeholder="Password"
+                  
                 />
               </Form.Group>
             </Form.Row>

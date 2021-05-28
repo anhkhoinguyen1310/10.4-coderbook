@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 
 const {
   AppError,
@@ -9,7 +10,7 @@ const {
 const postController = {};
 
 postController.create = catchAsync(async (req, res) => {
-  const post = await Post.create({ owner: req.userId, ...req.body });
+  const post = await Post.create({ owner: req.userId,  ...req.body });
   res.json(post);
 });
 
@@ -50,15 +51,41 @@ postController.destroy = catchAsync(async (req, res) => {
   });
 });
 
-postController.list = catchAsync(async (req, res) => {
+postController.getHomePagePosts = catchAsync(async (req, res) => {
+
+  // controllers always put data into our database and take data out
+  const posts = await Post.find({})
+  
   return sendResponse(
     res,
     200,
     true,
-    { posts: [{ foo: "bar" }] },
+    {posts},
     null,
     "Login successful"
   );
+});
+
+postController.createComment = catchAsync(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  const comment = await Comment.create({
+    owner: req.userId,
+    ...req.body,
+    post: req.params.id,
+  });
+
+  await post.comments.unshift(comment._id);
+  await post.save();
+  await post
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+      },
+    })
+    .execPopulate();
+
+  return sendResponse(res, 200, true, { post }, null, "Login successful");
 });
 
 module.exports = postController;

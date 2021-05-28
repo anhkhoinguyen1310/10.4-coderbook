@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import { Card, Form, Button, ButtonGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import {useSelector, useDispatch} from "react-redux"
 import "./style.css";
+import { postActions } from "../../redux/actions";
 
 const ComposerButton = ({ title, icon }) => {
   return (
@@ -15,16 +16,30 @@ const ComposerButton = ({ title, icon }) => {
 };
 
 export default function Composer() {
+  const [body, setBody] = useState('');
+  const dispatch = useDispatch();
+  
+  const onChange = (e) => {
+    setBody(e.target.value)
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    dispatch(postActions.createPost(body)) //see create post action 
+  }
+  console.log({body})
   return (
     <Card className="mb-3 w-100 shadow composer-card">
-      <Card.Body className="px-3 pt-3">
+      <Card.Body c lassName="px-3 pt-3">
         {" "}
         {/* STEP 2 */}
-        <Form>
-          <Form.Group>
+        <Form onSubmit = {onSubmit}> 
+          <Form.Group> 
             <Form.Control
               id="body"
               type="text"
+              value = {body}
+              onChange = {onChange}
               placeholder="What's on your mind?"
               className="border-0 rounded-md post-text"
             />
