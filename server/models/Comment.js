@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+  const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const commentSchema = Schema(
@@ -19,3 +19,4 @@ const commentSchema = Schema(
 
 const Comment = mongoose.model("Comment", commentSchema);
 module.exports = Comment
+   

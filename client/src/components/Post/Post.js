@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   Col,
   Form,
@@ -9,10 +9,11 @@ import {
   ListGroupItem,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {useDispatch} from 'react-redux'
 
+import { useDispatch } from "react-redux";
 import avatar from "../../assets/avatar.png";
-import {commentActions} from "../../redux/actions"
+import { commentActions } from "../../redux/actions";
+
 import "./style.css";
 
 const Avatar = (props) => {
@@ -20,27 +21,25 @@ const Avatar = (props) => {
 };
 
 /* STEP 4 */
-// pass the props to indentify which post to comment
-const CommentForm = ({postId}) => {
-  const dispatch = useDispatch('')
-  const [body, setBody] = useState('')
+const CommentForm = ({ postId }) => {
+  const dispatch = useDispatch();
+  const [body, setBody] = useState();
   const onSubmit = (e) => {
-    e.preventDefault()
-    console.log({body, postId})
-    dispatch(commentActions.create(body, postId))
+    e.preventDefault();
+    dispatch(commentActions.create(body, postId));
+  };
 
-    setBody('')
-  } 
   return (
-    <Form onSubmit = {onSubmit}>
+    <Form onSubmit={onSubmit}>
       <Form.Row>
-        <Col cla ssName="d-flex">
+        <Col className="d-flex">
           <Form.Control
             size="sm"
             type="text"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
             placeholder="Write a comment..."
             className="border-0 rounded-md bg-light"
-            onChange = {(e) => setBody(e.target.value)}
           />
         </Col>
       </Form.Row>
@@ -48,14 +47,13 @@ const CommentForm = ({postId}) => {
   );
 };
 
-const Comment = ({ body, user }) => {
-  
+const Comment = ({ body, owner }) => {
   return (
     <ListGroupItem className="justify-content-start border-bottom-0 pr-0 py-0">
-      <Avatar url={user.avatarUrl} />
+      <Avatar url="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" />
       <div className="col">
         <div className="comment-bubble">
-          <div className="font-weight-bold">{user.name}</div>
+          <div className="font-weight-bold">{owner?.name}</div>
           <p>{body}</p>
         </div>
       </div>
@@ -67,7 +65,7 @@ const PostComments = (props) => {
   return (
     <Card.Body>
       <ListGroup className="list-group-flush">
-        {props.comments.map((c) => (
+        {props.comments?.map((c) => (
           <Comment key={c.id} {...c} />
         ))}
       </ListGroup>
@@ -97,6 +95,7 @@ const PostActionButton = ({ title, icon }) => {
 };
 
 const PostActions = () => {
+  //make the expression icons
   return (
     <ButtonGroup aria-label="Basic example">
       {POST_ACTIONS.map((a) => {
@@ -115,22 +114,24 @@ const PostReactions = () => {
   );
 };
 
-function PostHeader() {
+function PostHeader({ time }) {
+  //change the name and avatar
   return (
-    <div className="d-flex align-items-center p-3">
+    <div className="d-flex p-2">
       <Avatar url="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-1/p480x480/13924881_10105599279810183_392497317459780337_n.jpg?_nc_cat=109&ccb=3&_nc_sid=7206a8&_nc_ohc=uI6aGTdf9vEAX8-Aev9&_nc_ht=scontent.fsgn5-6.fna&tp=6&oh=e8b18753cb8aa63937829afe3aa916a7&oe=6064C685" />
-      <h3 className="font-weight-bold ml-3">
-        Charles Lee
-      </h3>
+      <div className="ml-3">
+        {" "}
+        <h3 className="font-weight-bold">Charles Lee</h3>
+        <p className="time-font">{time}</p>
+      </div>
     </div>
   );
 }
 
 export default function Post({ post }) {
-  console.log({post})
   return (
     <Card className="p-3 mb-3 shadow rounded-md">
-      <PostHeader />
+      <PostHeader/>
       {post.body}
       <Card.Img
         variant="top"
@@ -140,7 +141,7 @@ export default function Post({ post }) {
       <hr className="my-1" />
       <PostActions />
       <hr className="mt-1" />
-      <PostComments comments={COMMENTS} />
+      <PostComments comments={post.comments} />
       <CommentForm postId={post._id} />
     </Card>
   );
