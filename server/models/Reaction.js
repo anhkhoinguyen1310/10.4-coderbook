@@ -11,6 +11,11 @@ const reactionSchema = Schema(
       required: true,
       type: Schema.Types.ObjectId,
     },
+    post: {
+      ref: 'Post',
+      required: true,
+      type: Schema.Types.ObjectId,
+    }
   },
   {
     timestamps: true,

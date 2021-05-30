@@ -146,13 +146,23 @@ const createPostReaction = (targetType, targetId, emoji) => async (dispatch) => 
     dispatch({ type: types.SEND_REACTION_FAILURE, payload: error });
   }
 };
-
+  
+const createReaction = (postId) => async (dispatch) => {
+ // dispatch({ type: types.DELETE_POST_REQUEST, payload: null });
+  try {
+    const res = await api.post(`/posts/${postId}/reactions`, { type: 'Like' });
+    console.log({res}) 
+  } catch (error) {
+    
+  }
+};
 export const postActions = {
   postsRequest,
   getSinglePost,
   createReview,
+  createReaction,
   createPost,
   updatePost,
   deletePost,
   createPostReaction,
-};
+}; 
