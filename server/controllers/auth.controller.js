@@ -6,7 +6,7 @@ const {
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const authController = {};
-
+//sd 
 authController.loginWithEmail = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
