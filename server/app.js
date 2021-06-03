@@ -3,12 +3,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-require("dotenv").config();
-const cors = require("cors");
-const mongoose = require("mongoose");
+require('dotenv').config();
+const cors = require('cors');
+const mongoose = require('mongoose');
 const MONGODB_URI = process.env.MONGODB_URI;
 
 var indexRouter = require('./api/index');
+
+const passport = require('passport');
+require('./middlewares/passport');
+
 
 var app = express();
 
@@ -19,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+app.use(passport.initialize());
 mongoose
   .connect(MONGODB_URI, {
     useCreateIndex: true,
