@@ -50,4 +50,17 @@ authController.loginWithFacebookGoogle = async ({ user }, res) => {
   res.send({ user, accessToken });
 };
 
+authController.testHeroku = catchAsync(async (req, res, next) => {
+  return sendResponse(
+    res,
+    200,
+    true,
+    { message: 'Hi',
+    color: ['blue', 'black']
+  },
+    null,
+    "Heroku Test"
+  );
+});
+
 module.exports = authController;

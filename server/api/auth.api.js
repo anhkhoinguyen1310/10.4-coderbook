@@ -16,6 +16,8 @@ router.post(
   authController.loginWithFacebookGoogle
 );
 
+router.get("/heroku", authController.testHeroku)
+
 module.exports = router;
 
 
