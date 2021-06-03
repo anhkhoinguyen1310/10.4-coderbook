@@ -17,6 +17,8 @@ router.post(
 );
 
 router.get("/heroku", authController.testHeroku)
+router.get("/testDB", authController.testDB)
+
 
 module.exports = router;
 
