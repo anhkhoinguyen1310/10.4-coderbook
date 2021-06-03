@@ -51,12 +51,12 @@ authController.loginWithFacebookGoogle = async ({ user }, res) => {
 };
 
 authController.testHeroku = catchAsync(async (req, res, next) => {
+  const users = await User.find({})
   return sendResponse(
     res,
     200,
     true,
-    { message: 'Hi',
-    color: ['blue', 'black']
+    { message: 'Hi', users
   },
     null,
     "Heroku Test"
