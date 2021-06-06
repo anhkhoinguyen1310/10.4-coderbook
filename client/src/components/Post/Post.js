@@ -151,7 +151,7 @@ export default function Post({ post }) {
   return (
     <Card className="p-3 mb-3 shadow rounded-md">
       <PostHeader/>
-      {post.body}
+      <p>{post.body}</p>
       <Card.Img
         variant="top"
         src="https://images.unsplash.com/photo-1529231812519-f0dcfdf0445f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8dGFsZW50ZWR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"

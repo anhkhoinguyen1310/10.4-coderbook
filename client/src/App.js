@@ -89,60 +89,63 @@ const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 
 function App() {
-  const [user, setUser] = useState(null);
-  const loginWithFacebook = async (user) => {
-    try {
-      const access_token = user.accessToken;
-      const response = await fetch(
-        "http://localhost:5000/api/auth/facebook-login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user,
-            access_token,
-          }),
-        },  
-      ); 
-      const json = await response.json()
-      console.log({ json });
-      setUser(json.user)
-    } catch (error) {
-      console.log({error})
-    }
-  }
-  const loginWithGoogle = async (user) => {
-    try {
-      const access_token = user.accessToken;
-      const response = await fetch("http://localhost:5000/api/auth/google-login",
-        {  
-          method: "POST",
-          headers: {
-           "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user,
-            access_token,
-          }),
-        },
-      );
-      const json = await response.json();
-      console.log({ json });
-      setUser(json.user);
-    } catch (error) {
-      console.log({ error });
-    }
-  };
+  // const [user, setUser] = useState(null);
+  // const loginWithFacebook = async (user) => {
+  //   try {
+  //     const access_token = user.accessToken;
+  //     const response = await fetch(
+  //       "http://localhost:5000/api/auth/facebook-login",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           user,
+  //           access_token,
+  //         }),
+  //       },  
+  //     ); 
+  //     const json = await response.json()
+  //     console.log({ json });
+  //     setUser(json.user)
+  //   } catch (error) {
+  //     console.log({error})
+  //   }
+  // }
+  // const loginWithGoogle = async (user) => {
+  //   try {
+  //     const access_token = user.accessToken;
+  //     const response = await fetch("http://localhost:5000/api/auth/google-login",
+  //       {  
+  //         method: "POST",
+  //         headers: {
+  //          "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           user,
+  //           access_token,
+  //         }),
+  //       },
+  //     );
+  //     const json = await response.json();
+  //     console.log({ json });
+  //     setUser(json.user);
+  //   } catch (error) {
+  //     console.log({ error });
+  //   }
+  // };
 
 
-  if (user?.avatarUrl) return <img src={user.avatarUrl} />
+  // if (user?.avatarUrl) return <img src={user.avatarUrl} />
 
   return (
+    
     <div className="App">
-
-      <h1>FaceBook Login</h1>
+            <Router>
+        <Routes />
+      </Router>
+      {/* <h1>FaceBook Login</h1>
       <FacebookLogin
                 appId={FB_APP_ID}
                 fields="name,email,picture"
@@ -181,7 +184,7 @@ function App() {
                 }}
                 cookiePolicy="single_host_origin"
               />
- 
+  */}
     </div>
   );
 }

@@ -71,7 +71,7 @@ export default function HomePage() {
         className="d-flex flex-column align-items-center posts-container"
       >
         <Composer />
-        {posts?.map(p =>{return <Post post={p}/> })}
+        {posts?.map(p =>{return <Post post={p}/>})}
       </Col>
       <Col></Col>
     </Row>

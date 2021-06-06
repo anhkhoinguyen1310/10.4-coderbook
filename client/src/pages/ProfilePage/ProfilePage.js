@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Row, Col, Nav, Button, Container, ButtonGroup } from 'react-bootstrap';
+import { postActions } from '../../redux/actions';
+import './style.css';
 
-import { Row, Col, Nav, Button, Container, ButtonGroup } from "react-bootstrap";
-
-import "./style.css";
-
-import Composer from "../../components/Composer/Composer";
+import Composer from '../../components/Composer/Composer';
+import Post from '../../components/Post/Post';
 
 export default function ProfilePage() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const posts = useSelector((state) => state.post.posts);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [postId, setPostId] = useState('');
+  const userEmail = user.email;
+  useEffect(() => {
+    // document.location.reload();
+    dispatch(postActions.getPostsByUser(userEmail));
+  }, [dispatch]);
   return (
     <div>
       <Row className="centered hero">
@@ -20,8 +31,16 @@ export default function ProfilePage() {
             <img
               alt="profile"
               className="position-absolute rounded-circle cover-profile-photo"
-              src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
+              src={user.avatarUrl}
+              style={{
+                width: '120px',
+                height: '120px',
+                border: '5px solid white',
+              }}
             />
+          </div>
+          <div className="centered position-relative" style={{ top: '-30px' }}>
+            <h4>{user.name}</h4>
           </div>
         </Container>
         <hr className="w-75" />
@@ -88,34 +107,14 @@ export default function ProfilePage() {
             <h1>Sidebar</h1>
           </Col>
           <Col xs={7} className="posts-col">
-            <Composer />
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
-            <h1>Post</h1>
+            <Composer postId={postId} />
+            {posts?.map((p) => {
+              return (
+                <Post
+                  post={p}
+                  setPostId={setPostId} />)
+            })}
+
           </Col>
         </Container>
       </Row>
